@@ -110,7 +110,7 @@ void from_stop_to_run(){
         }
     }
     if(run){
-        check_buttons();
+       
 		if (floor_req == read_floor()) { //hvis i etasje
 			door();
 			que_inside[floor_req] = 0;
@@ -137,6 +137,7 @@ void from_stop_to_run(){
             }
 
             hardware_command_movement(dir);
+            check_buttons();  //må ha check buttons her for å kunne stoppe mellom etasjene
             
             if (dir==HARDWARE_MOVEMENT_STOP){
                 break;
