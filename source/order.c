@@ -41,7 +41,7 @@ void check_buttons(){
         above_floor =1;
     }
 	check_and_stop_elevator();
-
+    floor_indicator();
     for (int i = 0; i < NUMB_FLOORS; i++) {
             if (hardware_read_order(i, HARDWARE_ORDER_UP)) { //sjekker om oppknapp er trykket
                 elev_que(i, HARDWARE_ORDER_UP,1);                //legger i que
@@ -103,8 +103,6 @@ int move_same_dir(){
 }
 
 void from_stop_to_run(){
-
-
     int run = 0;
     int floor_req;
     for(int i=0;i<NUMB_FLOORS;i++){
@@ -121,18 +119,29 @@ void from_stop_to_run(){
 			que_up[floor_req] = 0;
 			que_down[floor_req] = 0;
 			
-		}
-		while (floor_req != read_floor()) {
+    	}
+    	while (floor_req != read_floor()) {
 
             if ((current_floor==floor_req && above_floor)||floor_req<current_floor) {
-                dir = HARDWARE_MOVEMENT_DOWN;          
-
+                dir = HARDWARE_MOVEMENT_DOWN;  
+                 for(int j = prev_floor;j>=0;j--){        //fortsett ned
+                    if(que_down[j]==1 || que_inside[j]==1 || que_up[0]==1){
+                        floor_req=j;
+                    }
+                }
+            }      
                 
-            }
-			else if (current_floor<floor_req) {
-				dir = HARDWARE_MOVEMENT_UP;
-				
-			}
+            
+    		else if (current_floor<floor_req) {
+    			dir = HARDWARE_MOVEMENT_UP;
+                for(int j = prev_floor;j< NUMB_FLOORS;j++){   //Fortsett opp
+                    if(que_up[j]==1 || que_inside[j]==1 || que_down[NUMB_FLOORS-1]==1){
+                        floor_req = j;
+                    } 
+                }
+    			
+    		}
+
 
             if (floor_req==read_floor()){
                  prev_dir = dir;
@@ -144,14 +153,11 @@ void from_stop_to_run(){
             if (dir==HARDWARE_MOVEMENT_STOP){
                 break;
             }
-		}
-        if(dir!=HARDWARE_MOVEMENT_STOP){
-            stop_pressed=0;
-           
-        }
+    	}
+    }
 
-        
-           
+    if(dir!=HARDWARE_MOVEMENT_STOP){
+        stop_pressed=0;
     }
 } 
 
@@ -159,7 +165,6 @@ int change_dir(){
     //hvis nedover og oppoverknapp trykket
     for(int j = prev_floor;j>=0;j--){
         if(prev_dir == HARDWARE_MOVEMENT_DOWN && (que_up[j]||que_down[j]||que_inside[j])&& !(stop_pressed)){
-            printf("up\n");
             dir = HARDWARE_MOVEMENT_UP;
             prev_dir = dir;
             return 3;
@@ -167,7 +172,6 @@ int change_dir(){
     }
     for(int j = prev_floor;j< NUMB_FLOORS;j++){
          if(prev_dir == HARDWARE_MOVEMENT_UP && (que_up[j]||que_down[j]||que_inside[j])&& !(stop_pressed)){
-            printf("down\n");
             dir = HARDWARE_MOVEMENT_DOWN;
             prev_dir=dir;
             return 3;
