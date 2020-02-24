@@ -12,6 +12,9 @@ static void sigint_handler(int sig){
     (void)(sig);
     printf("Terminating elevator\n");
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+    printf("prev_floor: %d ", prev_floor);
+        printf("Current_floor: %d ", current_floor);
+        printf("Above: %d ", above_floor);
     exit(0);
 }
 

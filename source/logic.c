@@ -51,7 +51,7 @@ void check_and_stop_elevator(){
         hardware_command_stop_light(0);
         stop_pressed = 1;
 
-
+        //printf("stop: %d ", stop_pressed);
         /*printf("prev_floor: %d ", prev_floor);
         printf("Current_floor: %d ", current_floor);
         printf("Above: %d ", above_floor);*/

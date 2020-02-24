@@ -28,16 +28,20 @@ void elev_que(int floor, HardwareOrder order_type, int set_or_del) {
 }
 
 void check_buttons(){
-    if (read_floor()!=-1){
-        prev_floor = read_floor();
+    int floor =read_floor();
+    if (floor!=-1){
+        prev_floor = floor;
         current_floor = prev_floor;
         above_floor = 0;
+        if(dir==HARDWARE_MOVEMENT_DOWN){
+            current_floor = prev_floor-1;
+        }
     }
     else{
         above_floor =1;
     }
 	check_and_stop_elevator();
-	//floor_indicator();
+
     for (int i = 0; i < NUMB_FLOORS; i++) {
             if (hardware_read_order(i, HARDWARE_ORDER_UP)) { //sjekker om oppknapp er trykket
                 elev_que(i, HARDWARE_ORDER_UP,1);                //legger i que
@@ -59,6 +63,7 @@ void stop_elev_open_door(){
 			prev_dir = dir;
             dir = HARDWARE_MOVEMENT_STOP;
             hardware_command_movement(dir);
+
             door();
             if(que_inside[i]==1){
                 elev_que(i,HARDWARE_ORDER_INSIDE,0);
@@ -89,8 +94,7 @@ int move_same_dir(){
     for(int j = prev_floor;j>=0;j--){        //fortsett ned
         if(prev_dir == HARDWARE_MOVEMENT_DOWN && (que_down[j]==1 || que_inside[j]==1 || que_up[0]==1) && !(stop_pressed)){
 			dir = HARDWARE_MOVEMENT_DOWN;
-            current_floor = prev_floor -1;
-			prev_dir = dir;
+            prev_dir = dir;
             return 1;
         }
     }
@@ -99,6 +103,7 @@ int move_same_dir(){
 }
 
 void from_stop_to_run(){
+
 
     int run = 0;
     int floor_req;
@@ -110,7 +115,6 @@ void from_stop_to_run(){
         }
     }
     if(run){
-       
 		if (floor_req == read_floor()) { //hvis i etasje
 			door();
 			que_inside[floor_req] = 0;
@@ -119,15 +123,13 @@ void from_stop_to_run(){
 			
 		}
 		while (floor_req != read_floor()) {
+
             if ((current_floor==floor_req && above_floor)||floor_req<current_floor) {
-                //printf("ned");
-                dir = HARDWARE_MOVEMENT_DOWN;      
-                current_floor = prev_floor -1;       
+                dir = HARDWARE_MOVEMENT_DOWN;          
 
                 
             }
 			else if (current_floor<floor_req) {
-                //printf("opp");
 				dir = HARDWARE_MOVEMENT_UP;
 				
 			}
@@ -138,7 +140,7 @@ void from_stop_to_run(){
 
             hardware_command_movement(dir);
             check_buttons();  //må ha check buttons her for å kunne stoppe mellom etasjene
-            
+            stop_elev_open_door();
             if (dir==HARDWARE_MOVEMENT_STOP){
                 break;
             }
@@ -156,16 +158,17 @@ void from_stop_to_run(){
 int change_dir(){
     //hvis nedover og oppoverknapp trykket
     for(int j = prev_floor;j>=0;j--){
-        if(prev_dir == HARDWARE_MOVEMENT_DOWN && que_up[j]==1 && read_floor()==j && !(stop_pressed)){
+        if(prev_dir == HARDWARE_MOVEMENT_DOWN && (que_up[j]||que_down[j]||que_inside[j])&& !(stop_pressed)){
+            printf("up\n");
             dir = HARDWARE_MOVEMENT_UP;
             prev_dir = dir;
             return 3;
         }
     }
     for(int j = prev_floor;j< NUMB_FLOORS;j++){
-         if(prev_dir == HARDWARE_MOVEMENT_UP && que_down[j]==1 && read_floor()==j && !(stop_pressed)){
+         if(prev_dir == HARDWARE_MOVEMENT_UP && (que_up[j]||que_down[j]||que_inside[j])&& !(stop_pressed)){
+            printf("down\n");
             dir = HARDWARE_MOVEMENT_DOWN;
-            current_floor = prev_floor -1;
             prev_dir=dir;
             return 3;
         }
@@ -180,15 +183,17 @@ void order_handling() {
 	//start_condition gir etg 0
 
     hardware_command_movement(dir);
+
     check_buttons();
     
     
     
     int case_int;
-    if (move_same_dir() == 1 && !(stop_pressed)){
+    if (move_same_dir() == 1){
         case_int = 1;
     }
-    else if(change_dir()==3 && !(stop_pressed)){
+    else if(change_dir()==3){
+        printf("vi er her");
         case_int =3;
     }
     else if (dir == HARDWARE_MOVEMENT_STOP){
