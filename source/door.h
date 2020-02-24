@@ -5,8 +5,8 @@
  *
  * Veglo, Lønvik
  */
-#ifndef LIB_HECA_DEF_H_
-#define LIB_HECA_DEF_H_
+#ifndef DOOR
+#define DOOR
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -26,4 +26,5 @@ void door();
  * @brief If stopbutton is pressed on floor, call door. 
  */
 void stopbutton_door_open();
+
 #endif

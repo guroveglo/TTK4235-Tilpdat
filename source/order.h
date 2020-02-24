@@ -5,8 +5,8 @@
  *
  * Veglo, Lønvik
  */
-#ifndef EN
-#define EN
+#ifndef ORDERHANDLING
+#define ORDERHANDLING
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,25 +17,27 @@
 
 /**
  * @param dir Current movement.
- * @param prev_dir Last movement.
+ * @param save_dir Saves last movement when in stopstate.
  */
 HardwareMovement dir;
-HardwareMovement prev_dir;
+HardwareMovement save_dir;  
 /**
  * @param prev_floor Last floor.
+ * @param current_floor If between floors: the floor under. If at floor: the floor.
+ * @param avove_floor is 1 if between floors 
+ 
  */
 int prev_floor;
 int current_floor;
-
 int above_floor;
 /**
- * @brief Sets bits in elevator que's. [que_up, que_down, que_inside]
+ * @brief Sets bits in elevator queue's. [queue_up, queue_down, queue_inside]
  * Turns on/off command order lights. 
  * @param floor Inquired floor.
  * @param order_type 
  * @param set_or_del Add or remove bit from elevator que's.
  */
-void elev_que(int floor, HardwareOrder order_type, int set_or_del);
+void elev_queue(int floor, HardwareOrder order_type, int set_or_del);
 
 /**
  * @brief Checks if buttons are pressed. 

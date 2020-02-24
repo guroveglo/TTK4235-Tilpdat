@@ -1,5 +1,5 @@
-#ifndef LTRE
-#define LTRE
+#ifndef LIGHT
+#define LIGHT
 #include <stdio.h>
 #include <stdlib.h>
 #include "hardware.h"

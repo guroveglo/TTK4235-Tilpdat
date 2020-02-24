@@ -8,9 +8,7 @@
 
 
 void floor_indicator(){
-	
 	int floor = read_floor();
-
 	if (floor!=-1){
 		hardware_command_floor_indicator_on(floor);
 	}

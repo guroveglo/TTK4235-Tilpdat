@@ -10,7 +10,7 @@
 
 static void sigint_handler(int sig){
     (void)(sig);
-    printf("Terminating elevator\n");
+    printf("Terminating elevator to heaven --> going to hell\n");
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
     exit(0);
 }

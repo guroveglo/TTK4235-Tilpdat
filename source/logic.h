@@ -5,8 +5,8 @@
  *
  * Veglo, Lønvik
  */
-#ifndef TO
-#define TO
+#ifndef LOGIC
+#define LOGIC
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,16 +16,19 @@
 #include "light.h"
 #include "door.h"
 
+/**
+ * @param stop_pressed 1 if stop button is pressed.
+ */
 int stop_pressed;
 
-//void set_prev_dir();
+
 /**
  * @brief Set's the elevator to initial condition. [1st floor]
  */
 void start_condition();
 
 /**
- * @brief Checks witch the elevator is at.
+ * @brief Checks which the elevator is at.
  *
  * @return the integer of the floor. If between floors, return -1.
  */

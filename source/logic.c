@@ -16,9 +16,6 @@ void start_condition() {
     }
     dir = HARDWARE_MOVEMENT_STOP;
     hardware_command_movement(dir);
-    
-    prev_floor=0;
-    return;
 }
 
 int read_floor() {
@@ -32,9 +29,9 @@ int read_floor() {
 
 void reset_lights(){
     for (int i = 0; i < NUMB_FLOORS; i++){  
-            elev_que(i, HARDWARE_ORDER_UP,0);
-            elev_que(i, HARDWARE_ORDER_DOWN,0);
-            elev_que(i, HARDWARE_ORDER_INSIDE,0);
+            elev_queue(i, HARDWARE_ORDER_UP,0);
+            elev_queue(i, HARDWARE_ORDER_DOWN,0);
+            elev_queue(i, HARDWARE_ORDER_INSIDE,0);
         } 
 }
 
@@ -50,12 +47,6 @@ void check_and_stop_elevator(){
         }        
         hardware_command_stop_light(0);
         stop_pressed = 1;
-
-        //printf("stop: %d ", stop_pressed);
-        /*printf("prev_floor: %d ", prev_floor);
-        printf("Current_floor: %d ", current_floor);
-        printf("Above: %d ", above_floor);*/
-
     }
 
 }
