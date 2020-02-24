@@ -14,6 +14,7 @@ void start_condition() {
        hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
        floor_indicator();
     }
+    save_dir=dir;
     dir = HARDWARE_MOVEMENT_STOP;
     hardware_command_movement(dir);
 }

@@ -19,17 +19,10 @@
  * @param dir Current movement.
  * @param save_dir Saves last movement when in stopstate.
  */
+
 HardwareMovement dir;
-HardwareMovement save_dir;  
-/**
- * @param prev_floor Last floor.
- * @param current_floor If between floors: the floor under. If at floor: the floor.
- * @param avove_floor is 1 if between floors 
- 
- */
-int prev_floor;
-int current_floor;
-int above_floor;
+HardwareMovement save_dir;
+
 /**
  * @brief Sets bits in elevator queue's. [queue_up, queue_down, queue_inside]
  * Turns on/off command order lights. 
