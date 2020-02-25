@@ -66,7 +66,12 @@ void check_buttons_update_floor(){
 void stop_elev_open_door(){
 
     for(int i=0; i< NUMB_FLOORS; i++){
-        if ((queue_up[i] && read_floor()==i && dir == HARDWARE_MOVEMENT_UP)|| (queue_down[NUMB_FLOORS-1]&& read_floor()==NUMB_FLOORS-1 && i == NUMB_FLOORS-1) || (queue_inside[i]&&read_floor()==i) || (queue_down[i] && read_floor()==i && dir == HARDWARE_MOVEMENT_DOWN) || (queue_up[0]&& read_floor()==0 && i==0)){  //stopp på etasje
+        if ((queue_up[i] && read_floor()==i && dir == HARDWARE_MOVEMENT_UP) || 
+            (queue_down[NUMB_FLOORS-1]&& read_floor()==NUMB_FLOORS-1 && i == NUMB_FLOORS-1) || 
+            (queue_down[i] && read_floor()==i && dir == HARDWARE_MOVEMENT_DOWN) || 
+            (queue_up[0]&& read_floor()==0 && i==0) ||
+            (queue_inside[i]&&read_floor()==i))
+        { 
 			save_dir = dir;
             dir = HARDWARE_MOVEMENT_STOP;
             hardware_command_movement(dir);

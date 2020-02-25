@@ -32,7 +32,7 @@ extern HardwareMovement save_dir;
 void elev_queue(int floor, HardwareOrder order_type, int set_or_del);
 
 /**
- * @brief Updates the position of the elevator and checks if buttons are pressed. 
+ * @brief Updates the position of the elevator and checks if any buttons are pressed. 
  */
 void check_buttons_update_floor();
 
@@ -42,19 +42,21 @@ void check_buttons_update_floor();
 void stop_elev_open_door();
 
 /**
- * @brief If last movement and Keeps the direction if any orders in the same direction as before.
+ * @brief Checks if the elevator should continue the previous direction based on requested orders. 
  *
- * @return 1 if any orders in the same direction. 
+ * @return 1 if any orders in the same direction, 0 if not.
  */
 int move_same_dir();
 
 /**
- * @brief Starts the elevator if buttons pressed and elevator in stop state. Will change direction if no orders in same direction.
+ * @brief If stop button has been pressed, start the elevator when a new request occur. Will change direction if no orders in same direction.
  */
 void from_stop_to_run();
 
 /**
- * @brief Take care of order in opposite direction.
+ * @brief Checks if the elevator should change the previous direction based on requested orders. 
+ *
+ * @return 1 if any orders in the opposite direction, 0 if not.
  */
 int change_dir();
 
