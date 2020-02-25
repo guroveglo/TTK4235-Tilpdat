@@ -3,10 +3,9 @@
 #include <stdlib.h>
 #include "hardware.h"
 #include "logic.h"
-#include "light.h"
 #include "door.h"
 
-
+int stop_pressed=0;
 
 void start_condition() {
     reset_lights();
@@ -28,6 +27,13 @@ int read_floor() {
     return -1;
 }
 
+void floor_indicator(){
+    int floor = read_floor();
+    if (floor!=-1){
+        hardware_command_floor_indicator_on(floor);
+    }
+}
+
 void reset_lights(){
     for (int i = 0; i < NUMB_FLOORS; i++){  
             elev_queue(i, HARDWARE_ORDER_UP,0);
@@ -36,8 +42,7 @@ void reset_lights(){
         } 
 }
 
-void check_and_stop_elevator(){
-	
+void check_and_stop_elevator(){	
     if(hardware_read_stop_signal()){
         reset_lights();   
         dir = HARDWARE_MOVEMENT_STOP;   
@@ -52,13 +57,13 @@ void check_and_stop_elevator(){
 
 }
 
-void timer(){
+void door_delay(){
 	time_t start_time = time(NULL);
 	time_t current_time = time(NULL);
     double time_used = difftime(current_time,start_time);
      
-    while (time_used<3.0){
-		check_buttons();
+    while (time_used<TIME_DELAY){
+		check_buttons_update_floor();
 
 		if(hardware_read_obstruction_signal()||hardware_read_stop_signal()){
 			start_time = time(NULL);

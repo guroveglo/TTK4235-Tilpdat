@@ -1,4 +1,4 @@
-SOURCES := main.c light.c logic.c order.c door.c
+SOURCES := main.c logic.c order.c door.c
 
 SOURCE_DIR := source
 BUILD_DIR := build

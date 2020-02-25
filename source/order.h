@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Order handling for the elevator.
+ * @brief Takes care of, excecutes and deletes orders.
  *
  *
  * Veglo, Lønvik
@@ -12,39 +12,39 @@
 #include <stdlib.h>
 #include "hardware.h"
 #include "logic.h"
-#include "light.h"
 #include "door.h"
 
 /**
  * @param dir Current movement.
- * @param save_dir Saves last movement when in stopstate.
+ * @param save_dir Saves current movement, except HARDWARE_MOVEMENT_STOP.
  */
 
-HardwareMovement dir;
-HardwareMovement save_dir;
+extern HardwareMovement dir;
+extern HardwareMovement save_dir;
 
 /**
- * @brief Sets bits in elevator queue's. [queue_up, queue_down, queue_inside]
- * Turns on/off command order lights. 
- * @param floor Inquired floor.
+ * @brief Takes care of orders by @param set_or_del integer at @param floor in @param order_type. @param set_or_del command order lights. 
+ * 
+ * @param floor Requested floor.
  * @param order_type 
  * @param set_or_del Add or remove bit from elevator que's.
  */
 void elev_queue(int floor, HardwareOrder order_type, int set_or_del);
 
 /**
- * @brief Checks if buttons are pressed. 
+ * @brief Updates the position of the elevator and checks if buttons are pressed. 
  */
-void check_buttons();
+void check_buttons_update_floor();
 
 /**
- * @brief 
+ * @brief Stops elevator if in requested floor, opens door and deletes order. 
  */
 void stop_elev_open_door();
 
 /**
- * @brief Take care of ordered floor in the same direction as @param dir. 
- * @return 1 if requested floor is in the same direction. 
+ * @brief If last movement and Keeps the direction if any orders in the same direction as before.
+ *
+ * @return 1 if any orders in the same direction. 
  */
 int move_same_dir();
 
@@ -58,11 +58,5 @@ void from_stop_to_run();
  */
 int change_dir();
 
-
-/**
- * @brief Main controlsystem.
- * 
- */
-void order_handling();
 
 #endif

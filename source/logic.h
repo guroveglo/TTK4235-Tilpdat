@@ -5,47 +5,52 @@
  *
  * Veglo, Lønvik
  */
-#ifndef LOGIC
-#define LOGIC
+#ifndef LOGIC_H
+#define LOGIC_H
+#define TIME_DELAY 3.0
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "hardware.h"
 #include "order.h"
-#include "light.h"
 #include "door.h"
 
 /**
  * @param stop_pressed 1 if stop button is pressed.
  */
-int stop_pressed;
+extern int stop_pressed; //G_STOP,,.,
 
 
 /**
- * @brief Set's the elevator to initial condition. [1st floor]
+ * @brief Resets elevator panel and drives the elevator to initial condition. [1st floor].
  */
 void start_condition();
 
 /**
- * @brief Checks which the elevator is at.
+ * @brief Checks what floor the elevator is on.
  *
- * @return the integer of the floor. If between floors, return -1.
+ * @return Integer of the floor. If between floors, return -1.
  */
 int read_floor();
 
 /**
- * @brief Resets the lights of the elevator panel.
+ * @brief Turns on floor indicator light.
+ */
+void floor_indicator();
+
+/**
+ * @brief Resets the lights on the elevator panel.
  */
 void reset_lights();
 
 /**
- * @brief Checks if stop_button is pressed. If pressed, delete all orders.
+ * @brief Checks if the stop button is pressed. If pressed, delete all orders and update @param stop_pressed.
  */
 void check_and_stop_elevator();
 /**
- * @brief Time delay caused by stop button, open door and obstruction signal. 
+ * @brief Time delay while the door is open. Extends the delay if the stop button is pressed or active obstruction signal. 
  */
-void timer();
+void door_delay();
 
 #endif

@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Door handling. 
+ * @brief Door controller.
  *
  *
  * Veglo, Lønvik
@@ -10,20 +10,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-
 #include "hardware.h"
 #include "logic.h"
-#include "light.h"
 #include "door.h"
 
 
 /**
- * @brief Opens door, sets doorlight.
+ * @brief Opens door and turns on/off door light.
  */
 void door();
 /**
- * @brief If stopbutton is pressed on floor, call door. 
+ * @brief If the stop button is pressed while on a floor, call door(). 
  */
 void stopbutton_door_open();
 
