@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief Takes care of, excecutes and deletes orders.
+ * @brief Takes care of, execute and deletes orders.
  *
  *
  * Veglo, Lønvik
