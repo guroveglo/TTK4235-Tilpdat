@@ -5,8 +5,8 @@
  *
  * Veglo, Lønvik
  */
-#ifndef ORDERHANDLING
-#define ORDERHANDLING
+#ifndef ORDERHANDLING_H
+#define ORDERHANDLING_H
 
 #include <stdio.h>
 #include <stdlib.h>

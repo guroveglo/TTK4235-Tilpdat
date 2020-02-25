@@ -5,8 +5,8 @@
  *
  * Veglo, Lønvik
  */
-#ifndef DOOR
-#define DOOR
+#ifndef DOOR_H
+#define DOOR_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
