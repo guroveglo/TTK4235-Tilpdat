@@ -100,7 +100,7 @@ void hardware_command_door_open(int door_open);
  * @warning Owing to peculiarities in the hardware construction,
  * there will always be one indicator active.
  */
-void hardware_command_floor_indicator_on(int floor);
+void hagit an(int floor);
 
 /**
  * @brief Sets the light in the panel stop button.

@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "hardware.h"
-#include "order.h"
+#include "order.h" //fjernes trenger vel ikke
 #include "door.h"
 
 /**
