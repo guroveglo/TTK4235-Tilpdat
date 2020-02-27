@@ -66,13 +66,14 @@ void check_buttons_update_floor(){
 void stop_elev_open_door(){
 
     for(int i=0; i< NUMB_FLOORS; i++){
-        if ((queue_up[i] && read_floor()==i && dir == HARDWARE_MOVEMENT_UP) || 
-            (queue_down[NUMB_FLOORS-1]&& read_floor()==NUMB_FLOORS-1 && i == NUMB_FLOORS-1) || 
-            (queue_down[i] && read_floor()==i && dir == HARDWARE_MOVEMENT_DOWN) || 
-            (queue_up[0]&& read_floor()==0 && i==0) ||
-            (queue_inside[i]&&read_floor()==i))
+        int floor = read_floor();
+        if ((queue_up[i] && floor==i && dir == HARDWARE_MOVEMENT_UP) || 
+            (queue_down[NUMB_FLOORS-1]&& floor==NUMB_FLOORS-1 && i == NUMB_FLOORS-1) || 
+            (queue_down[i] && floor==i && dir == HARDWARE_MOVEMENT_DOWN) || 
+            (queue_up[0]&& floor==0 && i==0) ||
+            (queue_inside[i]&&floor==i))
         { 
-			save_dir = dir;
+			save_dir = dir;          //sjekk dette!
             dir = HARDWARE_MOVEMENT_STOP;
             hardware_command_movement(dir);
 
@@ -117,14 +118,15 @@ void from_stop_to_run(){
         }
     }
     if(run){
-		if (floor_req == read_floor()) { 
+        int floor = read_floor();
+		if (floor_req == floor) { 
 			door();
             elev_queue(floor_req,HARDWARE_ORDER_INSIDE,0);
             elev_queue(floor_req,HARDWARE_ORDER_DOWN,0);
             elev_queue(floor_req,HARDWARE_ORDER_UP,0);
 			
     	}
-    	while (floor_req != read_floor()) {
+    	while (floor_req != floor) {
             if ((current_floor==floor_req && above_floor)||current_floor>floor_req) {
                 dir = HARDWARE_MOVEMENT_DOWN;  
                  for(int j = floor_req;j>=0;j--){        
@@ -151,7 +153,7 @@ void from_stop_to_run(){
             hardware_command_movement(dir);
             check_buttons_update_floor();  
 
-            if (dir==HARDWARE_MOVEMENT_STOP){
+            if (dir==HARDWARE_MOVEMENT_STOP){       //hvis stop button er trykket under while, må vi ut av løkken
                 break;
             }
             stop_elev_open_door();
