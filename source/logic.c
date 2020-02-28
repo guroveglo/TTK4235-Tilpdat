@@ -4,6 +4,7 @@
 #include "hardware.h"
 #include "logic.h"
 #include "door.h"
+#include "order.h"
 
 int stop_pressed=0;
 
@@ -13,7 +14,7 @@ void start_condition() {
        hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
        floor_indicator();
     }
-    save_dir=dir;
+    save_dir=dir;   
     dir = HARDWARE_MOVEMENT_STOP;
     hardware_command_movement(dir);
 }
@@ -54,7 +55,6 @@ void check_and_stop_elevator(){
         hardware_command_stop_light(0);
         stop_pressed = 1;
     }
-
 }
 
 void door_delay(){
@@ -67,7 +67,6 @@ void door_delay(){
 
 		if(hardware_read_obstruction_signal()||hardware_read_stop_signal()){
 			start_time = time(NULL);
-		
 		}
 		current_time = time(NULL);
 		time_used = difftime(current_time,start_time);
@@ -75,6 +74,5 @@ void door_delay(){
 		if (!hardware_read_stop_signal()){
 			hardware_command_stop_light(0);
 		}
-
 	}
 }

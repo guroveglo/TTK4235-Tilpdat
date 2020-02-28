@@ -14,7 +14,6 @@
 #include "logic.h"
 #include "door.h"
 
-
 /**
  * @brief Opens door and turns on/off door light.
  */

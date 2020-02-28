@@ -6,11 +6,9 @@
 #include "door.h"
 #include "order.h"
 
-
 static int queue_inside[NUMB_FLOORS];
 static int queue_up[NUMB_FLOORS];
 static int queue_down[NUMB_FLOORS];
-
 
 static int prev_floor;
 static int current_floor;
@@ -18,7 +16,6 @@ static int above_floor;
 
 HardwareMovement dir = HARDWARE_MOVEMENT_STOP;
 HardwareMovement save_dir = HARDWARE_MOVEMENT_STOP;  
-
 
 void elev_queue(int floor, HardwareOrder order_type, int set_or_del) {
     if (order_type == HARDWARE_ORDER_UP) {
@@ -47,24 +44,23 @@ void check_buttons_update_floor(){
         above_floor =1;
     }
     floor_indicator();
-	
     check_and_stop_elevator();
+
     for (int i = 0; i < NUMB_FLOORS; i++) {
-            if (hardware_read_order(i, HARDWARE_ORDER_UP)) { 
-                elev_queue(i, HARDWARE_ORDER_UP,1);                
-            }
-            if (hardware_read_order(i, HARDWARE_ORDER_DOWN)) { 
-                elev_queue(i, HARDWARE_ORDER_DOWN,1);            
-            }
-            if (hardware_read_order(i, HARDWARE_ORDER_INSIDE)) { 
-                elev_queue(i, HARDWARE_ORDER_INSIDE,1);          
-            }
+        if (hardware_read_order(i, HARDWARE_ORDER_UP)) { 
+            elev_queue(i, HARDWARE_ORDER_UP,1);                
+        }
+        if (hardware_read_order(i, HARDWARE_ORDER_DOWN)) { 
+            elev_queue(i, HARDWARE_ORDER_DOWN,1);            
+        }
+        if (hardware_read_order(i, HARDWARE_ORDER_INSIDE)) { 
+            elev_queue(i, HARDWARE_ORDER_INSIDE,1);          
         }
     }
+}
 
 
 void stop_elev_open_door(){
-
     for(int i=0; i< NUMB_FLOORS; i++){
         int floor = read_floor();
         if ((queue_up[i] && floor==i && dir == HARDWARE_MOVEMENT_UP) || 
@@ -73,10 +69,8 @@ void stop_elev_open_door(){
             (queue_up[0]&& floor==0 && i==0) ||
             (queue_inside[i]&&floor==i))
         { 
-			save_dir = dir;          //sjekk dette!
             dir = HARDWARE_MOVEMENT_STOP;
             hardware_command_movement(dir);
-
             door();
             elev_queue(i,HARDWARE_ORDER_INSIDE,0);
             elev_queue(i,HARDWARE_ORDER_DOWN,0);
@@ -86,15 +80,12 @@ void stop_elev_open_door(){
 }
 
 int move_same_dir(){
-
     for(int j = prev_floor;j< NUMB_FLOORS;j++){   
-	
         if(save_dir == HARDWARE_MOVEMENT_UP && (queue_up[j] || queue_inside[j] || queue_down[NUMB_FLOORS-1]) && !(stop_pressed)){
 			dir = HARDWARE_MOVEMENT_UP;
 			save_dir = dir;
             return 1;
         }
-
     }
     for(int j = prev_floor;j>=0;j--){    
         if(save_dir == HARDWARE_MOVEMENT_DOWN && (queue_down[j] || queue_inside[j] || queue_up[0]) && !(stop_pressed)){
@@ -103,7 +94,6 @@ int move_same_dir(){
             return 1;
         }
     }
-
     return 0;
 }
 
@@ -129,13 +119,12 @@ void from_stop_to_run(){
     	while (floor_req != floor) {
             if ((current_floor==floor_req && above_floor)||current_floor>floor_req) {
                 dir = HARDWARE_MOVEMENT_DOWN;  
-                 for(int j = floor_req;j>=0;j--){        
+                for(int j = floor_req;j>=0;j--){        
                     if(queue_down[j] || queue_inside[j] || (j==0&&queue_up[0])){
                         floor_req=j;
                     }
                 }
-            }         
-            
+            }          
     		else if (current_floor<floor_req) {
     			dir = HARDWARE_MOVEMENT_UP;
                 for(int j = floor_req;j< NUMB_FLOORS;j++){   
@@ -143,24 +132,20 @@ void from_stop_to_run(){
                         floor_req = j;
                     } 
                 }
-    			
     		}
-
             if (floor_req==read_floor()){
                  save_dir = dir;
             }
-
             hardware_command_movement(dir);
             check_buttons_update_floor();  
 
-            if (dir==HARDWARE_MOVEMENT_STOP){       //hvis stop button er trykket under while, må vi ut av løkken
+            if (dir==HARDWARE_MOVEMENT_STOP){       //If stop button is pressed (checked in check_buttons_update_floor()), the direction is HARDWARE_MOVEMENT_STOP and we need to break out of the loop
                 break;
             }
             stop_elev_open_door();
     	}
     }
-
-    if(dir!=HARDWARE_MOVEMENT_STOP){
+    if(dir!=HARDWARE_MOVEMENT_STOP){              
         stop_pressed=0;
     }
 } 
@@ -182,5 +167,3 @@ int change_dir(){
     }
     return 0;
 }
-
-

@@ -13,14 +13,13 @@
 #include <stdlib.h>
 #include <time.h>
 #include "hardware.h"
-#include "order.h" //fjernes trenger vel ikke
+#include "order.h" 
 #include "door.h"
 
 /**
  * @param stop_pressed 1 if stop button is pressed.
  */
-extern int stop_pressed; //G_STOP,,.,
-
+extern int stop_pressed; 
 
 /**
  * @brief Resets elevator panel and drives the elevator to initial condition. [1st floor].
@@ -45,7 +44,7 @@ void floor_indicator();
 void reset_lights();
 
 /**
- * @brief Checks if the stop button is pressed. If pressed, delete all orders and update @param stop_pressed.
+ * @brief Checks if the stop button is pressed. If pressed, delete all orders and update @p stop_pressed.
  */
 void check_and_stop_elevator();
 /**

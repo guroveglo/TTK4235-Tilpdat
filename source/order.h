@@ -23,7 +23,7 @@ extern HardwareMovement dir;
 extern HardwareMovement save_dir;
 
 /**
- * @brief Takes care of orders by @param set_or_del integer at @param floor in @param order_type. @param set_or_del command order lights. 
+ * @brief Takes care of orders by @p set_or_del integer at @p floor in @p order_type. @p set_or_del command order lights. 
  * 
  * @param floor Requested floor.
  * @param order_type 
@@ -59,6 +59,5 @@ void from_stop_to_run();
  * @return 1 if any orders in the opposite direction, 0 if not.
  */
 int change_dir();
-
 
 #endif

@@ -15,9 +15,9 @@
  * @brief Movement type used in @c hardware_command_movement.
  */
 typedef enum {
-    HARDWARE_MOVEMENT_UP,
-    HARDWARE_MOVEMENT_STOP,
-    HARDWARE_MOVEMENT_DOWN
+    HARDWARE_MOVEMENT_UP,		
+    HARDWARE_MOVEMENT_STOP,		
+    HARDWARE_MOVEMENT_DOWN		
 } HardwareMovement;
 
 /**
@@ -100,7 +100,7 @@ void hardware_command_door_open(int door_open);
  * @warning Owing to peculiarities in the hardware construction,
  * there will always be one indicator active.
  */
-void hagit an(int floor);
+void hardware_command_floor_indicator_on(int floor);
 
 /**
  * @brief Sets the light in the panel stop button.
